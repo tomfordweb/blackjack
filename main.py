@@ -1,6 +1,6 @@
-
 import click
 import random
+
 
 class Card:
     faces = {
@@ -37,6 +37,7 @@ class Card:
         return '{} of {}'.format(self.faces.get(self.points), self.suites.get(self.suite))
 
 
+
 class Table:
     def __init__(self): 
         self.points = 0
@@ -54,7 +55,10 @@ class Table:
     def hit(self):
         card = Card()
         self.cards.append(card)
-        self.points = self.points + card.points
+
+        pointValue =  10 if card.points > 10 else card.points
+
+        self.points = self.points + pointValue
         
 
     def stay(self):
@@ -77,8 +81,6 @@ def drawCardPrompt(hit):
     
     if(table.points > 21):
         table.stay()
-
-    
 
 
 
