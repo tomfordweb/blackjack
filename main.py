@@ -27,28 +27,39 @@ class Card:
     }
 
     def __init__(self):
+        self.number = 0
         self.points = random.randint(1, 13)
         self.suite = random.randint(1, 4)
 
 
-    def getCardName(self):
-        print(this.faces.get(self.points), "of", this.suites.get(self.suite))
+    def __repr__(self):
+
+        return '{} of {}'.format(self.faces.get(self.points), self.suites.get(self.suite))
+
 
 class Table:
-    def __init__(self):
-        self.number = 0
+    def __init__(self): 
+        self.points = 0
         self.cards = []
         self.active = True
 
+    def startGame(self):
+        self.hit()
+        self.hit()
+    
+    def showHand(self):
+        print('You are at ', self.points)   
+        print(self.cards)
+        
     def hit(self):
         card = Card()
         self.cards.append(card)
-        self.number = self.number + card.points
+        self.points = self.points + card.points
         
-        print('HIT!',  self.number)
 
     def stay(self):
         self.active = False
+        print('Final score', self.points)
     
 
 
@@ -57,13 +68,17 @@ class Table:
 def drawCardPrompt(hit):
     if(hit == 'y'):
         table.hit()
+        table.showHand()
+        drawCardPrompt()
     
     
     if(hit != 'y'):
         table.stay()
     
-    if(table.number >= 21):
+    if(table.points > 21):
         table.stay()
+
+    
 
 
 
@@ -71,7 +86,8 @@ if __name__ == '__main__':
     # Create a new game instance
     table = Table()
     # Start the game with two cards!
-    table.hit()
-    table.hit()
+    table.startGame()
+
     while table.active:
+        table.showHand()
         drawCardPrompt()
